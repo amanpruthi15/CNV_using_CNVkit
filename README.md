@@ -28,5 +28,5 @@ PROJECT_DIR/
 ```
 **Usage:**
 ```
-python launch cnvkit_pipeline.py <PROJECT_DIR> <Sample-Info.txt>
+python launch_cnvkit_pipeline.py <PROJECT_DIR> <Sample-Info.txt>
 ```
