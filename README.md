@@ -30,3 +30,42 @@ PROJECT_DIR/
 ```
 python launch_cnvkit_pipeline.py <PROJECT_DIR> <Sample-Info.txt>
 ```
+
+## Gene-Level CNV Matrix Construction (Genemetrics)
+
+After running `cnvkit.py genemetrics` for all samples, gene-level copy number information can be consolidated across the cohort and converted into **log2**, **absolute copy number**, and **CNV state** matrices.
+
+### Input
+Per-sample files: <sample>.genemetrics.tsv
+
+Each file contains:
+
+gene chromosome start end log2 depth weight probes segment_weight segment_probes
+
+---
+
+### Copy Number Inference Rules (CNVkit-based)
+
+| log2 range | Absolute CN | CNV State |
+|-----------|-------------|-----------|
+| ≤ -1.1    | 0           | HOMDEL    |
+| -1.1 – -0.4 | 1        | DEL       |
+| -0.4 – 0.3 | 2         | NEUTRAL   |
+| 0.3 – 0.7 | 3           | GAIN      |
+| ≥ 0.7     | 4           | AMP       |
+
+---
+
+### Concatenation Script
+
+```bash
+python concat_genemetrics.py genemetrics/ cohort_prefix
+```
+**Outputs:**
+
+cohort_prefix_log2.tsv    # Gene × Sample log2 ratios
+
+cohort_prefix_cn.tsv      # Gene × Sample absolute copy number
+
+cohort_prefix_infer.tsv   # Gene × Sample CNV state (HOMDEL/DEL/NEUTRAL/GAIN/AMP)
+
